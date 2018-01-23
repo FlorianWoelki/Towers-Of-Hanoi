@@ -2,29 +2,29 @@ var start = document.getElementById('start');
 
 start.addEventListener('submit', init);
 
-var pegsState = {
-  	pegs: [
+var linesState = {
+  	lines: [
 	    {id: 0, name: 'Start', disks: [], level: 20, coord: {x: 100, y: 400, w: 200, h: 200}},
 	    {id: 1, name: 'End', disks: [], level: 20, coord: {x: 300, y: 400, w: 200, h: 200}},
 	    {id: 2, name: 'Aux', disks: [], level: 20, coord: {x: 500, y: 400, w: 200, h: 200}}
   	]
 }
 
-function drawPegs() {
+function drawLines() {
 	ctx.fillStyle = '#d1e0ff';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	ctx.lineWidth = 8;
-	pegsState.pegs.forEach(peg => {
-		ctx.moveTo(peg.coord.x, peg.coord.y);
-	    ctx.lineTo(peg.coord.x + peg.coord.w, peg.coord.y);
-	    ctx.moveTo(peg.coord.x + 100, peg.coord.y);
-	    ctx.lineTo(peg.coord.x + 100, peg.coord.y - peg.coord.h);
+	linesState.lines.forEach(line => {
+		ctx.moveTo(line.coord.x, line.coord.y);
+	    ctx.lineTo(line.coord.x + line.coord.w, line.coord.y);
+	    ctx.moveTo(line.coord.x + 100, line.coord.y);
+	    ctx.lineTo(line.coord.x + 100, line.coord.y - line.coord.h);
 
 	    ctx.fillStyle = 'black';
 	    ctx.font = '20px Helvetica, Arial, sans-serif';
 	    ctx.textAlign = 'center';
-	    ctx.fillText(peg.name, peg.coord.x + 100, peg.coord.y + 40);
+	    ctx.fillText(line.name, line.coord.x + 100, line.coord.y + 40);
 	});
 
 	ctx.stroke();
@@ -46,21 +46,21 @@ Disk.prototype.draw = function() {
 };
 
 function initDisks(n) {
-	var peg = pegsState.pegs[0].coord;
+	var line = linesState.lines[0].coord;
  	var colors = ['#aa1414', '#ce1414', '#f74545', '#f7a145', '#c5e56b', '#5bff0a', '#28ede9', '#84c5ff', '#2295f9', '#5f22f9'];
   	var width = 20 * n;
   	
   	for(var i = n; i > 0; i--) {
-    	let disk = new Disk((peg.w / 2 + (peg.w - width) / 2), peg.y - pegsState.pegs[0].level, width, peg.h / 10, colors[i - 1]);
-    	pegsState.pegs[0].disks.push(disk);
-    	pegsState.pegs[0].level += peg.h / 10;
+    	let disk = new Disk((line.w / 2 + (line.w - width) / 2), line.y - linesState.lines[0].level, width, line.h / 10, colors[i - 1]);
+    	linesState.lines[0].disks.push(disk);
+    	linesState.lines[0].level += line.h / 10;
     	width -= 20;
   	}
 }
 
 function drawDisks(state) {
-	state.pegs.forEach(function(peg) {
-    	peg.disks.forEach(function(disk) {
+	state.lines.forEach(function(line) {
+    	line.disks.forEach(function(disk) {
         	disk.draw();
     	});
   	});
@@ -77,8 +77,8 @@ function moveDisk(from, to) {
       	to.disks.push(movingDisk);
       	from.level -= 20;
       	to.level += 20;
-      	drawPegs();
-      	drawDisks(pegsState);
+      	drawLines();
+      	drawDisks(linesState);
     }, 1000 * delay);
     
     delay++;
@@ -102,5 +102,5 @@ function init(e) {
 	canvas.height = canvas.scrollHeight;
 	ctx = canvas.getContext('2d');
 	initDisks(num);
-	hanoi(num, ...pegsState.pegs);
+	hanoi(num, ...linesState.lines);
 }
