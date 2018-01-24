@@ -10,6 +10,16 @@ var linesState = {
   	]
 }
 
+setupDisplay();
+drawLines();
+
+function setupDisplay() {
+	canvas = document.getElementById('canvas');
+	canvas.width = canvas.scrollWidth;
+	canvas.height = canvas.scrollHeight;
+	ctx = canvas.getContext('2d');
+}
+
 function drawLines() {
 	ctx.fillStyle = '#d1e0ff';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -67,8 +77,9 @@ function drawDisks(state) {
 }
 
 var delay = 1;
-
 function moveDisk(from, to) {
+	drawDisks(linesState);
+
 	setTimeout(function() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
       	var movingDisk = from.disks.pop();
@@ -94,13 +105,9 @@ function hanoi(n, from, to, aux) {
 
 function init(e) {
 	e.preventDefault();
-	var num = 3;
 	menu.style.display = 'none';
 	canvas.style.display = 'block';
-	canvas = document.getElementById('canvas');
-	canvas.width = canvas.scrollWidth;
-	canvas.height = canvas.scrollHeight;
-	ctx = canvas.getContext('2d');
+	var num = 3;
 	initDisks(num);
 	hanoi(num, ...linesState.lines);
 }
