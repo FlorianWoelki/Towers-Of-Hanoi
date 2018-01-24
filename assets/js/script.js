@@ -105,7 +105,7 @@ function hanoi(n, from, to, aux) {
 
 function init(e) {
 	e.preventDefault();
-	menu.style.display = 'none';
+	start.style.display = 'none';
 	canvas.style.display = 'block';
 	var num = 3;
 	initDisks(num);
