@@ -21,7 +21,7 @@ function setupDisplay() {
 }
 
 function drawLines() {
-	ctx.fillStyle = '#d1e0ff';
+	ctx.fillStyle = '#ffffff';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	ctx.lineWidth = 8;
